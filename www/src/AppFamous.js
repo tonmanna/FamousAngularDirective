@@ -53,6 +53,7 @@ define(function(require) {
                 surface.chain.addModifier(currentmodifier);
             });
         }
+
         var transform = MyObject.transformMod(scope);
         if(transform.length>0)
         {
@@ -63,6 +64,11 @@ define(function(require) {
                 surface.chain.addModifier(currentmodifier);
             });
         }
+
+        surface.on("click", function (e) {
+
+        });
+
         return surface.chain;
     }
     MyObject.transformMod = function(scope){
