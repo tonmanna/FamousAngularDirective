@@ -1,4 +1,4 @@
-define(['src/App'], function (app,famous) {
+define(['src/App','src/Directive'], function (app,famous) {
     app.register.controller('HomeController', function ($scope,$famous) {
         $scope.Name = "MyCtrl";
         $scope.init = function () {
