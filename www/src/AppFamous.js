@@ -4,6 +4,8 @@ define(function(require) {
     var Transform = require('famous/core/Transform');
     var ImageSurface = require('famous/surfaces/ImageSurface');
     var Surface = require('famous/core/Surface');
+    var StateModifier = require('famous/modifiers/StateModifier');
+
 
     // create the main context
     var mainContext = Engine.createContext();
@@ -15,6 +17,6 @@ define(function(require) {
     MyObject.ImageSurface = ImageSurface;
     MyObject.Surface = Surface;
     MyObject.mainContext = mainContext;
-
+    MyObject.StateModifier = StateModifier;
     return MyObject;
 });
