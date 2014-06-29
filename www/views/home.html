@@ -1,2 +1,28 @@
-<logo width="500" height="500"></logo>
-<text height="25" width="180" top="100" left="100" z-index="0" style="border:solid 1px #0c0c0c;color:blue;text-align: center;font-weight: bold;background-color: #fa5c4f">HELLO Sawasdee</text>
+<logo size="[100,100]" src="http://dev.w3.org/SVG/tools/svgweb/samples/svg-files/cartman.svg"></logo>
+<!--src="http://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg"-->
+<text size="[180,25]" align="[0,0]" origin="[0,0]" opacity="1" scale="[1,1,0]" rotatez="4" translate="[250,0,0,0.002]"
+      style="border:solid 1px #0c0c0c;color:blue;text-align: center;font-weight: bold;background-color: #fa5c4f">
+    สวัสดีครับผมชื่อต้น
+</text>
+
+<fa-app class="full-screen">
+    <!-- Container modifier, which we're rotating over the y axis -->
+    <fa-modifier fa-origin="[.5, .5]" fa-rotate-y="rotateY.get()">
+        <!-- Front face -->
+        <fa-surface fa-size="[true, true]" fa-color="'rgb(255,255,250)'">
+            <img class="logo" src="images/famous-logo.svg" style="width: 200px; height: 200px;"/>
+        </fa-surface>
+        <!-- Back face:  same image, rotated pi radians -->
+        <fa-modifier fa-rotate-y="3.14159">
+            <fa-surface fa-size="[true, true]" fa-color="'rgb(255,255,250)'">
+                <img class="logo" src="http://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg" style="width: 200px; height: 200px;" />
+            </fa-surface>
+        </fa-modifier>
+    </fa-modifier>
+
+    <fa-modifier fa-origin="[.5, .9]" fa-size="[200, 100]">
+        <fa-surface>
+            <input style="width: 100%; text-align: center;" type="range" min="10" max="100" ng-model="spinner.speed" />
+        </fa-surface>
+    </fa-modifier>
+</fa-app>

@@ -1,19 +1,28 @@
 define(['src/App','src/AppFamous'], function (app,famous) {
+
+    var default_params = {onclick:"=",size:"=",align:"=",origin:"=",opacity:"=",translate:"=",scale:"=",rotatez:"@",animate:"="};
+
     app.register.directive('logo',function(){
+        var param = _.extend(default_params,{src:"@"});
         return{
             restrict : 'E',
-            scope : {onclick:"=",width:"@",height:"@",path:"@"},
+            scope : param,
             link : function(scope,element,attrib)
             {
+                if (scope.size === undefined) {
+                    scope.size = [100, 100];
+                }
+                element.remove();
                 var image = new famous.ImageSurface({
-                    size: [+scope.width, +scope.height], content: 'http://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg',
+                    size: scope.size,
+                    content: scope.src,
                     classes: ['double-sided']
                 });
+
                 var initialTime = Date.now();
                 var centerSpinModifier = new famous.Modifier({
                     origin: [0.5, 0.5],
-                    opacity : 0.1,
-                    transform: function () {
+                    transform : function(){
                         return famous.Transform.rotateY(.002 * (Date.now() - initialTime));
                     }
                 });
@@ -24,43 +33,20 @@ define(['src/App','src/AppFamous'], function (app,famous) {
     app.register.directive('text',function(){
         return{
             restrict : 'E',
-            scope : {onclick:"=",width:"@",height:"@",top:"@",left:"@",zIndex:"@"},
+            scope : default_params,
             link : function(scope,element,attrib) {
-
-                if(scope.width===undefined)
-                {
-                    scope.width = window.innerWidth -10;
+                if (scope.size === undefined) {
+                    scope.size = [100, 100];
                 }
-
-                var stateModifier = new famous.StateModifier({
-                    transform: famous.Transform.translate(scope.left,scope.top,scope.zIndex)
-                });
-
-                var rotateModifierOne = new famous.StateModifier({
-                    transform: famous.Transform.rotateZ(Math.PI/4)
-                });
-
-                var modifier = new famous.StateModifier({
-                    opacity : 0.5,
-                    transform: famous.Transform.scale(1.5,1.5,1),
-                    align: [0.1, 0.1],
-                    origin: [0.1, 0.1]
-                });
-
-
                 var text = element[0].innerHTML;
-                element[0].innerHTML = "";
+                element.remove();
                 var textSurface = new famous.Surface({
-                    size : [scope.width,Number(scope.height)],
+                    size: scope.size,
                     content: text,
                     properties: element[0].style
                 });
-                famous.mainContext
-                    .add(modifier)
-                    .add(rotateModifierOne)
-                    .add(stateModifier)
-                    .add(textSurface);
-
+                var modchain  = famous.addModifier(textSurface,scope);
+                famous.mainContext.add(modchain).add(textSurface);
             }
         }
     })
