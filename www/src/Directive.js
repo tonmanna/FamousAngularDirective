@@ -1,7 +1,10 @@
 define(['src/App','src/AppFamous'], function (app,famous) {
-
-    var default_params = {onclick:"=",size:"=",align:"=",origin:"=",opacity:"=",translate:"=",scale:"=",rotatez:"@",animate:"="};
-
+    var default_params = {onclick:"=",
+        size:"=",align:"=",origin:"=",opacity:"="
+        ,translate:"=",scale:"=",rotatez:"@"
+        ,animateRotatey:"@",animateRotatex:"@",animateRotatez:"@",
+        animateAtOrigin:"="
+    };
     app.register.directive('logo',function(){
         var param = _.extend(default_params,{src:"@"});
         return{
@@ -12,21 +15,13 @@ define(['src/App','src/AppFamous'], function (app,famous) {
                 if (scope.size === undefined) {
                     scope.size = [100, 100];
                 }
-                element.remove();
                 var image = new famous.ImageSurface({
                     size: scope.size,
                     content: scope.src,
                     classes: ['double-sided']
                 });
-
-                var initialTime = Date.now();
-                var centerSpinModifier = new famous.Modifier({
-                    origin: [0.5, 0.5],
-                    transform : function(){
-                        return famous.Transform.rotateY(.002 * (Date.now() - initialTime));
-                    }
-                });
-                famous.mainContext.add(centerSpinModifier).add(image);
+                var modchain  = famous.addModifier(image,scope);
+                famous.mainContext.add(modchain).add(image);
             }
         }
     });
