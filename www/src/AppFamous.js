@@ -8,8 +8,6 @@ define(function(require) {
     var ModifierChain = require("famous/modifiers/ModifierChain");
     var Easing = require("famous/transitions/Easing");
 
-
-    // create the main context
     var mainContext = Engine.createContext();
 
     var MyObject = {};
@@ -22,15 +20,41 @@ define(function(require) {
     MyObject.StateModifier = StateModifier;
 
     MyObject.addModifier = function(surface,scope){
-        var modifier = new StateModifier({
-            opacity : scope.opacity,
-            align: scope.align,
-            origin: scope.origin
-        });
+        var initObj = {};
+        if(scope.animateAtOrigin) {
+            initObj = {
+                    opacity: scope.opacity,
+                    align: scope.align
+            }
+        }else
+        {
+            initObj = {
+                opacity: scope.opacity,
+                align: scope.align,
+                origin : scope.origin
+            }
+        }
+
+        var modifier = new StateModifier(initObj);
         surface.chain = new ModifierChain();
         surface.chain.addModifier(modifier);
+
+        var animateMod = MyObject.animateMod(scope);
+        if(animateMod.length>0)
+        {
+            angular.forEach(animateMod,function(trans){
+                var initialTime = Date.now();
+                var currentmodifier = new Modifier({
+                    origin : scope.origin,
+                    transform : function(){
+                        return trans.TransFunc(initialTime)
+                    }
+                });
+                surface.chain.addModifier(currentmodifier);
+            });
+        }
         var transform = MyObject.transformMod(scope);
-        if(transform.length>1)
+        if(transform.length>0)
         {
             angular.forEach(transform,function(trans){
                 var currentmodifier = new StateModifier({
@@ -51,12 +75,46 @@ define(function(require) {
             var translate = Transform.translate(scope.translate[0], scope.translate[1], scope.translate[2]);
             transforms.push(translate);
         }
-        if (scope.rotatez != undefined)
+        if (scope.rotatez !== undefined)
         {
             var rotatez = Transform.rotateZ(Math.PI/scope.rotatez)
             transforms.push(rotatez);
         }
         return transforms;
     }
+    MyObject.animateMod = function(scope){
+        var animate = [];
+
+        if(scope.animateRotatey!==undefined){
+            var transform = {};
+            transform.origin = scope.origin;
+            transform.TransFunc = function(initialTime){
+               return Transform.rotateY(Number(scope.animateRotatey) * (Date.now() - initialTime));
+           }
+           animate.push(transform);
+        }
+
+        if(scope.animateRotatex!==undefined){
+            var transform = {};
+            transform.origin = scope.origin;
+            transform.TransFunc = function(initialTime){
+                return Transform.rotateX(Number(scope.animateRotatex) * (Date.now() - initialTime));
+            }
+            animate.push(transform);
+        }
+
+        if(scope.animateRotatez!==undefined){
+
+            var transform = {};
+            transform.origin = scope.origin;
+            transform.TransFunc = function(initialTime){
+                return Transform.rotateZ(Number(scope.animateRotatez) * (Date.now() - initialTime));
+            }
+            animate.push(transform);
+        }
+
+        return animate;
+    }
+
     return MyObject;
 });

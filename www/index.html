@@ -23,24 +23,24 @@
         <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
         <link rel="stylesheet" type="text/css" href="bower_components/famous-angular/dist/famous-angular.min.css">
 
+        <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+
         <link rel="stylesheet" type="text/css" href="css/app.css" />
         <script type="text/javascript">
             require.config({
-                //baseUrl: "src/",
                 paths: {
                     'angular': 'bower_components/angular/angular.min',
                     'angular-route': 'bower_components/angular-route/angular-route.min',
                     'angularAMD': 'bower_components/angularAMD/angularAMD.min',
-                    'famous-angular' : 'bower_components/famous-angular/dist/famous-angular',
                     'ngload': 'bower_components/angularAMD/ngload.min',
                     'jquery': 'http://code.jquery.com/jquery-2.1.1.min',
-                    'underscore' : 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min'
+                    'underscore': 'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min'
                 },
                 shim: {
-                    'angularAMD': ['angular','angular-route','jquery','underscore'],
+                    'angularAMD': ['jquery', 'underscore'],
                     'ngload': ['angularAMD'],
-                    'famous-angular' : ['angular']
                 },
+                urlArgs: "bust=v1.34",
                 deps: ['src/App']
             });
         </script>
