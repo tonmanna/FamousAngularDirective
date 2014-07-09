@@ -10,7 +10,7 @@ define(['src/App','src/AppFamous'], function (app,famous) {
         return{
             restrict : 'E',
             scope : param,
-            link : function(scope,element,attrib)
+            link : function(scope)
             {
                 if (scope.size === undefined) {
                     scope.size = [100, 100];
@@ -29,7 +29,7 @@ define(['src/App','src/AppFamous'], function (app,famous) {
         return{
             restrict : 'E',
             scope : default_params,
-            link : function(scope,element,attrib) {
+            link : function(scope,element) {
                 if (scope.size === undefined) {
                     scope.size = [100, 100];
                 }
@@ -40,7 +40,27 @@ define(['src/App','src/AppFamous'], function (app,famous) {
                     content: text,
                     properties: element[0].style
                 });
-                var modchain  = famous.addModifier(textSurface,scope);
+                var modchain  = famous.addModifier(textSurface,scope,true);
+                famous.mainContext.add(modchain).add(textSurface);
+            }
+        }
+    })
+
+    app.register.directive('surface',function(){
+        return{
+            restrict : 'E',
+            scope : default_params,
+            link : function(scope,element) {
+                if (scope.size === undefined) {
+                    scope.size = [100, 100];
+                }
+                var text = element[0].innerHTML;
+                element.remove();
+                var textSurface = new famous.Surface({
+                    size: scope.size,
+                    properties: element[0].style
+                });
+                var modchain  = famous.addModifier(textSurface,scope,true);
                 famous.mainContext.add(modchain).add(textSurface);
             }
         }

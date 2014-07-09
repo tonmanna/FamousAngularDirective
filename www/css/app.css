@@ -7,3 +7,10 @@ html {
     -webkit-backface-visibility: visible;
     backface-visibility: visible;
 }
+
+.background{
+    background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 0%, #207cca 58%, #2989d8 82%, #7db9e8 100%);
+    background: -webkit-linear-gradient(top, #1e5799 0%,#2989d8 0%,#207cca 58%,#2989d8 82%,#7db9e8 100%);
+    background: -ms-linear-gradient(top, #1e5799 0%,#2989d8 0%,#207cca 58%,#2989d8 82%,#7db9e8 100%);
+    background: linear-gradient(to bottom, #1e5799 0%,#2989d8 0%,#207cca 58%,#2989d8 82%,#7db9e8 100%);
+}

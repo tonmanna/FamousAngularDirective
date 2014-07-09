@@ -7,8 +7,13 @@ define(function(require) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var ModifierChain = require("famous/modifiers/ModifierChain");
     var Easing = require("famous/transitions/Easing");
+    var View = require('famous/core/View');
+
+    var myView = new View();
+
 
     var mainContext = Engine.createContext();
+    mainContext.add(myView);
 
     var MyObject = {};
     MyObject.Engine = Engine;
@@ -19,9 +24,9 @@ define(function(require) {
     MyObject.mainContext = mainContext;
     MyObject.StateModifier = StateModifier;
 
-    MyObject.addModifier = function(surface,scope){
+    MyObject.addModifier = function(surface,scope,disableevent){
         var initObj = {};
-        if(scope.animateAtOrigin) {
+        if(scope.animateAtOrigin) { // if Animate At Origin Origin will be set at animate Modifier
             initObj = {
                     opacity: scope.opacity,
                     align: scope.align
@@ -65,12 +70,53 @@ define(function(require) {
             });
         }
 
-        surface.on("click", function (e) {
+        if(!disableevent) {
 
-        });
+//            myView.add(surface);
+//            myView.subscribe(surface);
+//
+//            myView._eventInput.on('mouseover', function() {
+//                var stateModifier = new StateModifier();
+//                stateModifier.setTransform(
+//                    Transform.scale(1.01, 1.01, 0),
+//                    { duration: 250, curve: Easing.inOutBack },
+//                    function() {
+//
+//                    }
+//                );
+//                surface.chain.addModifier(stateModifier);
+//            });
+            surface.on("click",function(e){
+                var stateModifier = new StateModifier();
+                stateModifier.setTransform(
+                    Transform.translate(0, 200, 0),
+                    { duration: 500, curve: Easing.inOutBack },
+                    function() {
+                    }
+                );
+
+                stateModifier.setTransform(
+                Transform.translate(800, 200, 0),
+                { duration : 800, curve: Easing.outElastic },
+                    function() {
+                    }
+                );
+                surface.chain.addModifier(stateModifier);
+            });
+//            surface.on("mouseleave",function(e){
+//                var stateModifier = new StateModifier();
+//                stateModifier.setTransform(
+//                    Transform.scale(0.99, 0.99, 0),
+//                    { duration: 250, curve: Easing.inOutBack },function() {
+//                    }
+//                );
+//                surface.chain.addModifier(stateModifier);
+//            })
+        }
 
         return surface.chain;
     }
+
     MyObject.transformMod = function(scope){
         var transforms = [];
         if (scope.scale !== undefined) {
@@ -88,6 +134,7 @@ define(function(require) {
         }
         return transforms;
     }
+
     MyObject.animateMod = function(scope){
         var animate = [];
 
