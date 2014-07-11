@@ -21,8 +21,12 @@ define(function(require) {
     MyObject.Transform = Transform;
     MyObject.ImageSurface = ImageSurface;
     MyObject.Surface = Surface;
-    MyObject.mainContext = mainContext;
     MyObject.StateModifier = StateModifier;
+    MyObject.ModifierChain = ModifierChain;
+    MyObject.Easing = Easing;
+    MyObject.View = View;
+    MyObject.mainContext = mainContext;
+
 
     MyObject.addModifier = function(surface,scope,disableevent){
         var initObj = {};
@@ -72,9 +76,9 @@ define(function(require) {
 
         if(!disableevent) {
 
-//            myView.add(surface);
-//            myView.subscribe(surface);
-//
+            myView.add(surface);
+            myView.subscribe(surface);
+
 //            myView._eventInput.on('mouseover', function() {
 //                var stateModifier = new StateModifier();
 //                stateModifier.setTransform(
@@ -87,21 +91,22 @@ define(function(require) {
 //                surface.chain.addModifier(stateModifier);
 //            });
             surface.on("click",function(e){
-                var stateModifier = new StateModifier();
-                stateModifier.setTransform(
-                    Transform.translate(0, 200, 0),
-                    { duration: 500, curve: Easing.inOutBack },
-                    function() {
-                    }
-                );
 
-                stateModifier.setTransform(
-                Transform.translate(800, 200, 0),
-                { duration : 800, curve: Easing.outElastic },
-                    function() {
-                    }
-                );
-                surface.chain.addModifier(stateModifier);
+//                var stateModifier = new StateModifier();
+//                stateModifier.setTransform(
+//                    Transform.translate(0, 200, 0),
+//                    { duration: 500, curve: Easing.inOutBack },
+//                    function() {
+//                    }
+//                );
+//
+//                stateModifier.setTransform(
+//                Transform.translate(800, 200, 0),
+//                { duration : 800, curve: Easing.outElastic },
+//                    function() {
+//                    }
+//                );
+//                surface.chain.addModifier(stateModifier);
             });
 //            surface.on("mouseleave",function(e){
 //                var stateModifier = new StateModifier();
@@ -165,7 +170,6 @@ define(function(require) {
             }
             animate.push(transform);
         }
-
         return animate;
     }
 

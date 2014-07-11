@@ -1,8 +1,9 @@
-define(['src/App','src/AppFamous'], function (app,famous) {
+define(['src/App','src/AppFamous','src/Beaw'], function (app,famous) {
     var default_params = {onclick:"=",
         size:"=",align:"=",origin:"=",opacity:"="
         ,translate:"=",scale:"=",rotatez:"@"
-        ,animateRotatey:"@",animateRotatex:"@",animateRotatez:"@",
+        ,animateRotatey:"@",animateRotatex:"@",animateRotatez:"@"
+        ,animateScale:"=",
         animateAtOrigin:"="
     };
     app.register.directive('logo',function(){
